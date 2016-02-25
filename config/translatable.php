@@ -11,12 +11,8 @@ return [
     |
     */
     'locales' => [
-        'en',
-        'fr',
-        'es' => [
-            'MX', // mexican spanish
-            'CO', // colombian spanish
-        ],
+        'ro',
+        'ru',
     ],
 
     /*
@@ -66,7 +62,7 @@ return [
     | set it to false.
     |
     */
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'ro',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +74,7 @@ return [
     | application, set this to 'Trans'.
     |
     */
-    'translation_suffix' => 'Translation',
+    'translation_suffix' => 'Translations',
 
     /*
     |--------------------------------------------------------------------------

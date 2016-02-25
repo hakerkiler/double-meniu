@@ -16,6 +16,8 @@ class CreateTableCategoryTranslations extends Migration
             $table->increments('id');
             $table->string('category_id');
             $table->string('name');
+            $table->string('url');
+            $table->string('locale')->index();
         });
 
 
