@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\CategoryTranslations;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Psy\Util\Str;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -19,8 +19,16 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::translatedIn('ro')->get();
+        $category_parent = Category::where('parent_id', '<>', 0)->translatedIn('ro')->get();
+        $new_arr_cat = array();
+
+        foreach($category_parent as $cat){
+            $new_arr_cat[$cat->id] = $cat->name;
+        }
+
         return view('admin.category.index')
-            ->with('category', $category);
+            ->with('category', $category)
+            ->with('category_parent', $new_arr_cat);
     }
 
     /**
@@ -71,6 +79,33 @@ class CategoryController extends Controller
             $return_msg['message_type'] = 'error';
             $return_msg['message_closable'] = false;
         }
-        return redirect()->route('admin.category.index')->with($return_msg);;
+        return redirect()->route('admin.category.index')->with($return_msg);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $category = Category::where('parent_id', '=', 0)->translatedIn('ro')->get();
+        $new_arr_cat = array();
+        foreach($category as $cat){
+            $new_arr_cat[$cat->id] = $cat->name;
+        }
+
+        $category = Category::where('id', $id)->translatedIn('ro')->first();
+        return view('admin.category.create')
+            ->with('category_all', $new_arr_cat)
+            ->with('category', $category);
+    }
+
+    public function destroy($id)
+    {
+        $task = Category::find($id);
+
+        $task->delete();
+        return redirect()->route('admin.category.index');
     }
 }
